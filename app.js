@@ -12,7 +12,8 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 const MONGODB_URI =
-'mongodb+srv://ampz:pana8a@cluster0-ar0tj.mongodb.net/shop';
+'mongodb://ampz:pana8a@cluster0-shard-00-00.ar0tj.mongodb.net:27017,cluster0-shard-00-01.ar0tj.mongodb.net:27017,cluster0-shard-00-02.ar0tj.mongodb.net:27017/shop?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority';
+// 'mongodb+srv://ampz:pana8a@cluster0-ar0tj.mongodb.net/shop?retryWrites=true&w=majority';
 
 const app = express();
 const store = new MongoDBStore({
@@ -66,7 +67,7 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(result => {
     app.listen(3000);
   })
